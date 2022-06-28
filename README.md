@@ -2,6 +2,10 @@
 A E-Mail Generator
 
 
+WHAT MAKES THIS BETTER
+
+
+The mail is ready when the script is done. It will already be VERIFIED and NO further manual VERIFICATION needed not like at other generators
 
 USAGE
 
