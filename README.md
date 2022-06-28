@@ -7,7 +7,7 @@ A E-Mail Generator
 
 The mail is ready when the script is done. It will already be VERIFIED and NO further manual VERIFICATION needed not like at other generators
 
-## USAGE
+### USAGE
 
 It is used to generate a protonmail mail for you which you can fully access
 
@@ -15,7 +15,7 @@ Firefox as standard browser is recommended but not must have (for chrome or othe
 
 
 
-### HOW TO USE
+## HOW TO USE
 
 install python: https://www.python.org/downloads/
 and don't forget to add python to your PATH
@@ -34,5 +34,5 @@ be sure to click nothing while the script is running otherwise you could interfe
 when finished you can find the mail and password in the accLog.txt
 enjoy!
 
-## EXCUSES:
+#### EXCUSES:
 My first python code ever kinda bad but it works. Rn I am working on a selenium version of this because using the webbrowser and pyautogui is really bad for this usecase ig.
