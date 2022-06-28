@@ -15,7 +15,7 @@ Firefox as standard browser is recommended but not must have (for chrome or othe
 
 
 
-## HOW TO USE
+### HOW TO USE
 
 install python: https://www.python.org/downloads/
 and don't forget to add python to your PATH
