@@ -24,3 +24,5 @@ open cmd and type in:
 
 then start by either writing py generator.py in your commandline or 
 clicking the launch.cmd
+
+My first python code ever kinda bad but it works. Rn I am working on a selenium version of this because using the webbrowser and pyautogui is really bad for this usecase ig.
