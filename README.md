@@ -6,7 +6,8 @@ A E-Mail Generator
 USAGE
 
 It is used to generate a protonmail mail for you which you can fully access
-Firefox as standard browser is recommended but not must have (for chrome use the chromegen.py)
+
+Firefox as standard browser is recommended but not must have (for chrome or other browsers just use the chromegen.py)
 
 
 
