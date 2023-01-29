@@ -41,7 +41,7 @@ def getMail():
             text = ctypes.c_char_p(data_locked)
             value = text.value
             kernel32.GlobalUnlock(data_locked)
-            if "@dropmail.me" in str(value) or "@emltmp.com" in str(value) or "@spymail.one" in str(value) or "@10mail.org" in str(value):
+            if "@dropmail.me" in str(value)  or "@10mail.org"  in str(value)  or "@emlpro.com" in str(value) or "@emltmp.com" in str(value): # 
                 match = re.search(r'[\w.+-]+@[\w-]+\.[\w.-]+', str(value))
                 return str(match.group(0))
             return False
@@ -125,7 +125,7 @@ while True:
     if not newMail:
         pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
         time.sleep(5)
-    pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
+    pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')#28
     pyautogui.keyDown('ctrlleft')
     pyautogui.keyDown('shiftleft')
     pyautogui.keyDown('shiftright')
