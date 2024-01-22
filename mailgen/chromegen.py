@@ -26,7 +26,7 @@ def getClip6digit():
             data = user32.GetClipboardData(CF_TEXT)
             data_locked = kernel32.GlobalLock(data)
             text = ctypes.c_char_p(data_locked)
-            value = text.value
+            value = text.value.decode('utf-8')
             kernel32.GlobalUnlock(data_locked)
             return str(re.findall(r'(\d{6})', (str(value))))
     finally:
@@ -39,7 +39,7 @@ def getMail():
             data = user32.GetClipboardData(CF_TEXT)
             data_locked = kernel32.GlobalLock(data)
             text = ctypes.c_char_p(data_locked)
-            value = text.value
+            value = text.value.decode('utf-8')
             kernel32.GlobalUnlock(data_locked)
             if "@dropmail.me" in str(value) or "@emltmp.com" in str(value) or "@spymail.one" in str(value) or "@10mail.org" in str(value):
                 match = re.search(r'[\w.+-]+@[\w-]+\.[\w.-]+', str(value))
