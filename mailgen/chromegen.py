@@ -66,7 +66,7 @@ def randomize(
         #       -n      for numbers only
         #       -m      for month selection
         #       -d      for day selection
-        #       -y      for year selection
+        #       -y      for year selection                                                                                  
 
         if _option_ == '-p':
             string._characters_='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+'
@@ -95,7 +95,7 @@ def randomize(
 
 # Username
 _username_=randomize('-s',5)+randomize('-s',5)+randomize('-s',5)
-pyautogui.typewrite(_username_ + '\t\t')
+pyautogui.typewrite(_username_ + '\t\t\t')
 print("Username:" + _username_)
 
 # Password
@@ -110,7 +110,7 @@ pyautogui.typewrite('\t\t\t\n')
 pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('t'); pyautogui.keyUp('ctrlleft')
 
 time.sleep(10)
-pyautogui.typewrite('https://dropmail.me/\n')
+pyautogui.typewrite('https://dropmail.me/\n')                                                                                                           
 
 
 pyautogui.keyDown('shift');pyautogui.keyDown('down'); pyautogui.keyUp('down'); pyautogui.keyUp('shift')
@@ -121,7 +121,7 @@ while True:
     if not newMail:
         pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
         time.sleep(5)
-    pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
+    pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
     pyautogui.keyDown('ctrlleft')
     pyautogui.keyDown('shiftleft')
     pyautogui.keyDown('shiftright')
@@ -173,8 +173,6 @@ print(_username_+"@proton.me:" + _password_)
 logfile = open("accLog.txt", "a")
 logfile.write(_username_ + "@proton.me:" + _password_ + "\n")
 logfile.close()
-
-
 
 # CHAPTCHA
 #pyautogui.typewrite('\t')
