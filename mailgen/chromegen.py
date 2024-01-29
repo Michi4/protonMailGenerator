@@ -13,7 +13,6 @@ CF_TEXT = 1
 domains = [
     "dropmail.me",
     "yomail.info",
-    "mailpwr.com",
 ]
 
 webbrowser.open('https://google.com')
@@ -76,7 +75,6 @@ print("Password:" + _password_)
 
 pyautogui.typewrite('\n')
 time.sleep(5)
-pyautogui.typewrite('\t\t\t\n')
 
 sessionId = None
 token = _username_
@@ -110,7 +108,6 @@ while len(code) == 0:
     client = Client(transport=transport, fetch_schema_from_transport=True)
     query = gql("query ($id: ID!) {session(id:$id) { addresses {address}, mails{rawSize, fromAddr, toAddr, downloadUrl, text, headerSubject}} }")
     result = client.execute(query, variable_values={"id": f"{sessionId}"})
-    print(result)
     result_mails = result['session']['mails']
     if len(result_mails) > 0:
         code = result_mails[0]['text'][-6:]
@@ -119,11 +116,11 @@ while len(code) == 0:
 
 pyautogui.typewrite(code + '\n')
 
-time.sleep(5)
+time.sleep(10)
 pyautogui.typewrite('\n')
 time.sleep(5)
-pyautogui.typewrite('\t\t\t\t\n')
-time.sleep(1)
+pyautogui.typewrite('\t\t\t\n')
+time.sleep(5)
 pyautogui.typewrite('\t\n')
 
 print(_username_+"@proton.me:" + _password_)
