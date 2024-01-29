@@ -1,55 +1,25 @@
 #! python3
 #Michi4
-from PIL import Image
 import pyautogui
-import sys
 import time
 import random
 import string
 import webbrowser
-import ctypes
-import re
+from gql import Client, gql
+from gql.transport.websockets import WebsocketsTransport
 
 CF_TEXT = 1
 
-kernel32 = ctypes.windll.kernel32
-kernel32.GlobalLock.argtypes = [ctypes.c_void_p]
-kernel32.GlobalLock.restype = ctypes.c_void_p
-kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
-user32 = ctypes.windll.user32
-user32.GetClipboardData.restype = ctypes.c_void_p
+domains = [
+    "dropmail.me",
+    "yomail.info",
+]
 
-def getClip6digit():
-    user32.OpenClipboard(0)
-    try:
-        if user32.IsClipboardFormatAvailable(CF_TEXT):
-            data = user32.GetClipboardData(CF_TEXT)
-            data_locked = kernel32.GlobalLock(data)
-            text = ctypes.c_char_p(data_locked)
-            value = text.value
-            kernel32.GlobalUnlock(data_locked)
-            return str(re.findall(r'(\d{6})', (str(value))))
-    finally:
-        user32.CloseClipboard()
-
-def getMail():
-    user32.OpenClipboard(0)
-    try:
-        if user32.IsClipboardFormatAvailable(CF_TEXT):
-            data = user32.GetClipboardData(CF_TEXT)
-            data_locked = kernel32.GlobalLock(data)
-            text = ctypes.c_char_p(data_locked)
-            value = text.value
-            kernel32.GlobalUnlock(data_locked)
-            if "@dropmail.me" in str(value) or "@emltmp.com" in str(value) or "@spymail.one" in str(value) or "@10mail.org" in str(value):
-                match = re.search(r'[\w.+-]+@[\w-]+\.[\w.-]+', str(value))
-                return str(match.group(0))
-            return False
-    finally:
-        user32.CloseClipboard()
-webbrowser.open('https://account.proton.me/signup?plan=free')
+webbrowser.open('https://google.com')
 time.sleep(5)
-
+pyautogui.keyDown('ctrlleft'); pyautogui.keyDown('shift'); pyautogui.typewrite('n'); pyautogui.keyUp('ctrlleft'); pyautogui.keyUp('shift')
+pyautogui.typewrite('https://account.proton.me/signup?plan=free\n')
+time.sleep(10)
 
 
 def randomize(
@@ -85,7 +55,7 @@ def randomize(
             _generated_info_=random.randint(1950,2000)
         else:
             _generated_info_=''
-            for _counter_ in range(0,_length_) :
+            for _ in range(0,_length_) :
                 _generated_info_= _generated_info_ + random.choice(string._characters_)
 
         return _generated_info_
@@ -95,7 +65,7 @@ def randomize(
 
 # Username
 _username_=randomize('-s',5)+randomize('-s',5)+randomize('-s',5)
-pyautogui.typewrite(_username_ + '\t\t')
+pyautogui.typewrite(_username_ + '\t\t\t')
 print("Username:" + _username_)
 
 # Password
@@ -105,84 +75,56 @@ print("Password:" + _password_)
 
 pyautogui.typewrite('\n')
 time.sleep(5)
+
+sessionId = None
+token = _username_
+isFound = False
+while not isFound:
+    transport = WebsocketsTransport(url="wss://dropmail.me/api/graphql/" + token + "/websocket")
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql("mutation {introduceSession {id, expiresAt, addresses {address}}}")
+    result = client.execute(query)
+    result_mails = result['introduceSession']['addresses']
+    sessionId = result['introduceSession']['id']
+    newMail = result_mails[0]['address']
+    print("New mail:" + newMail)
+    print("Session id:" + sessionId)
+    for domain in domains:
+        if domain in newMail:
+            print("10 min mail: " + newMail)
+            isFound = True
+            break
+
+time.sleep(1)
+pyautogui.typewrite(newMail)
+pyautogui.typewrite('\n')
+
+time.sleep(20)
+
+code = ""
+
+while len(code) == 0:
+    transport = WebsocketsTransport(url="wss://dropmail.me/api/graphql/" + token + "/websocket")
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+    query = gql("query ($id: ID!) {session(id:$id) { addresses {address}, mails{rawSize, fromAddr, toAddr, downloadUrl, text, headerSubject}} }")
+    result = client.execute(query, variable_values={"id": f"{sessionId}"})
+    result_mails = result['session']['mails']
+    if len(result_mails) > 0:
+        code = result_mails[0]['text'][-6:]
+        print(f'Verification code: {code}')
+
+
+pyautogui.typewrite(code + '\n')
+
+time.sleep(10)
+pyautogui.typewrite('\n')
+time.sleep(5)
 pyautogui.typewrite('\t\t\t\n')
-
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('t'); pyautogui.keyUp('ctrlleft')
-
-time.sleep(10)
-pyautogui.typewrite('https://dropmail.me/\n')
-
-
-pyautogui.keyDown('shift');pyautogui.keyDown('down'); pyautogui.keyUp('down'); pyautogui.keyUp('shift')
-time.sleep(10)
-
-newMail = True
-while True:
-    if not newMail:
-        pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
-        time.sleep(5)
-    pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t')
-    pyautogui.keyDown('ctrlleft')
-    pyautogui.keyDown('shiftleft')
-    pyautogui.keyDown('shiftright')
-    pyautogui.press('down')
-    pyautogui.keyUp('shiftleft')
-    pyautogui.keyUp('shiftright')
-    pyautogui.keyUp('ctrlleft')
-    pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('c'); pyautogui.keyUp('ctrlleft')
-    newMail = getMail()
-    if newMail:
-        print("10 min mail: " + newMail)
-        break
-
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('\t'); pyautogui.keyUp('ctrlleft')
-time.sleep(1)
-#äpyautogui.typewrite(newMail)
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('v'); pyautogui.keyUp('ctrlleft')
-pyautogui.press('backspace')
-pyautogui.typewrite('\n')
-
-time.sleep(10)
-
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('\t'); pyautogui.keyUp('ctrlleft')
-time.sleep(1)
-
-#pyautogui.typewrite('\t\t\t\t\t\t\t\t\t\t\t\t\t\n')
-
-#time.sleep(5)
-
-
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('a'); pyautogui.keyUp('ctrlleft')
-pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('c'); pyautogui.keyUp('ctrlleft')
-
-
-pyautogui.keyDown('ctrlleft');  pyautogui.typewrite('\t'); pyautogui.keyUp('ctrlleft')
 time.sleep(5)
-pyautogui.typewrite(str(getClip6digit()) + '\n')
-
-
-time.sleep(5)
-pyautogui.typewrite('\n')
-time.sleep(5)
-pyautogui.typewrite('\t\t\t\t\n')
-time.sleep(1)
 pyautogui.typewrite('\t\n')
 
 print(_username_+"@proton.me:" + _password_)
 
-logfile = open("accLog.txt", "a")
+logfile = open("mailgen/accLog.txt", "a")
 logfile.write(_username_ + "@proton.me:" + _password_ + "\n")
 logfile.close()
-
-
-
-# CHAPTCHA
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-#pyautogui.typewrite('\t')
-
-#pyautogui.typewrite('\n')
