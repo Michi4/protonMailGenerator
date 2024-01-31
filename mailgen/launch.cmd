@@ -1,1 +1,1 @@
-py generator.py
+py firefox_generator.py
